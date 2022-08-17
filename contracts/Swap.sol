@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 
-pragma solidity 0.8.9;
+pragma solidity 0.8.7;
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.0.0/contracts/token/ERC20/IERC20.sol";
 
@@ -14,7 +14,6 @@ contract Swap{
 
     address owner;
     Token[] pricefeed;
-    //mapping(address => Token) tokenTraker;
 
     constructor(){
         owner = msg.sender;
@@ -38,6 +37,14 @@ contract Swap{
     }
 
     function SwapExactTokentoToken (address tokenaddr, address tokenaddr2,address owner1, address owner2,uint tokenvalue1, uint tokenvalue2) public {
+        for(uint256 i=0; i < pricefeed.length; i++){
+            if(pricefeed[i].tokenAddress == tokenaddr){
+                uint checkprice1 = pricefeed[i].price;
+            }
+            if(pricefeed[i].tokenAddress == tokenaddr2){
+                uint checkprice2 = pricefeed[i].price;
+            }
+        }
         IERC20 exactToken = IERC20(tokenaddr);
         IERC20 token = IERC20(tokenaddr2);
 
@@ -46,6 +53,3 @@ contract Swap{
 
         exactToken.transferFrom(owner1, owner2, tokenvalue1);
         token.transferFrom(owner2, owner1, (tokenvalue2 * 1/2));
-    }
-    
-}
